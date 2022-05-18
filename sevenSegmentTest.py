@@ -35,9 +35,10 @@ for i in common:
 GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 curr = 0
-
+prevInput = 0
 try:
     while True:
+        input = GPIO.input(btnPin)
         temp = curr
         for i in common:
             GPIO.output(i, True)
@@ -45,10 +46,9 @@ try:
             temp //= 10
             sleep(sleeptime)
             GPIO.output(i, False)
-        if GPIO.input(btnPin) == GPIO.HIGH:
+        if (not prevInpt) and input == GPIO.HIGH:
             curr += 1
-            sleep(0.05)
-            continue
+        prevInput = input
         
         
 finally:
