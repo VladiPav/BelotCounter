@@ -39,7 +39,7 @@ try:
             GPIO.output(i, True)
             counter = 0
             for j in segments:
-                GPIO.output(j, digits[temp%10][counter])
+                GPIO.output(j, digits[(temp % 10)][counter])
                 counter += 1
             temp /= 10
         sleep(sleeptime)
