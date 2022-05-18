@@ -46,7 +46,7 @@ try:
             temp //= 10
             sleep(sleeptime)
             GPIO.output(i, False)
-        if (not prevInpt) and input == GPIO.HIGH:
+        if (not prevInput) and input == GPIO.HIGH:
             curr += 1
         prevInput = input
         
