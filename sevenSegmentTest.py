@@ -47,7 +47,6 @@ try:
             GPIO.output(i, False)
         if GPIO.input(btnPin) == GPIO.HIGH:
             curr += 1
-            sleep(0.5)
             continue
         
         
