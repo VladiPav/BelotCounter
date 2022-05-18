@@ -32,7 +32,7 @@ for i in common:
     GPIO.setup(i, GPIO.OUT)
     GPIO.output(i, False)
 
-GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 curr = 0
 
