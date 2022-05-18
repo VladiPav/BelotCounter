@@ -41,6 +41,7 @@ try:
             for j in segments:
                 GPIO.output(j, digits[temp % 10][counter])
                 counter += 1
+            print(temp)
             temp //= 10
             GPIO.output(i, False)
         sleep(sleeptime)
