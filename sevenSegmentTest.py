@@ -4,7 +4,7 @@ from time import sleep
 GPIO.setmode(GPIO.BCM)
 
 
-sleeptime = .1
+sleeptime = .001
 segments = (21, 20, 26, 19, 16, 13, 6)
 
 common = (2, 3, 3)
