@@ -36,8 +36,10 @@ try:
     while True:
         for i in common:
             GPIO.output(i, True)
+            counter = 0
             for j in segments:
-                GPIO.output(j, digits[2][j])
+                GPIO.output(j, digits[2][counter])
+                counter += 1
         sleep(sleeptime)
         
 finally:
