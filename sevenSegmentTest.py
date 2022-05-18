@@ -30,7 +30,8 @@ for i in common:
     GPIO.setup(i, GPIO.OUT)
     GPIO.output(i, False)
 
-
+curr = 123
+temp = curr
 
 try:
     while True:
@@ -38,8 +39,9 @@ try:
             GPIO.output(i, True)
             counter = 0
             for j in segments:
-                GPIO.output(j, digits[2][counter])
+                GPIO.output(j, digits[temp%10][counter])
                 counter += 1
+            temp /= 10
         sleep(sleeptime)
         
 finally:
