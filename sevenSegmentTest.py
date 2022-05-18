@@ -8,6 +8,8 @@ sleeptime = .006
 segments = (21, 20, 26, 19, 16, 13, 6)
 
 common = (2, 3, 17)
+btnPin = 5
+
 
 digits = (
     (0, 0, 0, 0, 0, 0, 1),
@@ -30,7 +32,9 @@ for i in common:
     GPIO.setup(i, GPIO.OUT)
     GPIO.output(i, False)
 
-curr = 123
+GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+curr = 0
 
 try:
     while True:
@@ -41,6 +45,9 @@ try:
             temp //= 10
             sleep(sleeptime)
             GPIO.output(i, False)
+        if GPIO.input(btnPin) == GPIO.HIGH:
+            curr += 1
+        
         
 finally:
     for i in segments:
