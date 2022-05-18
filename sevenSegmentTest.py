@@ -31,10 +31,10 @@ for i in common:
     GPIO.output(i, False)
 
 curr = 123
-temp = curr
 
 try:
     while True:
+        temp = curr
         for i in common:
             GPIO.output(i, True)
             counter = 0
