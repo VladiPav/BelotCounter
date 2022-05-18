@@ -42,6 +42,7 @@ try:
                 GPIO.output(j, digits[temp % 10][counter])
                 counter += 1
             temp //= 10
+            GPIO.output(i, False)
         sleep(sleeptime)
         
 finally:
