@@ -4,7 +4,7 @@ from time import sleep
 GPIO.setmode(GPIO.BCM)
 
 
-sleeptime = .007
+sleeptime = .006
 segments = (21, 20, 26, 19, 16, 13, 6)
 
 common = (2, 3, 17)
@@ -39,8 +39,8 @@ try:
             GPIO.output(i, True)
             GPIO.output(segments, digits[temp % 10])
             temp //= 10
-            GPIO.output(i, False)
             sleep(sleeptime)
+            GPIO.output(i, False)
         
 finally:
     for i in segments:
