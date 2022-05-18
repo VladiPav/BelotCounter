@@ -7,7 +7,7 @@ GPIO.setmode(GPIO.BCM)
 sleeptime = .001
 segments = (21, 20, 26, 19, 16, 13, 6)
 
-common = (2, 3, 3)
+common = (2, 3, 4)
 
 for i in segments:
     GPIO.setup(i, GPIO.OUT)
