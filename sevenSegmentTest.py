@@ -39,8 +39,8 @@ try:
             GPIO.output(i, True)
             GPIO.output(segments, digits[temp % 10])
             temp //= 10
-            sleep(sleeptime)
             GPIO.output(i, False)
+            sleep(sleeptime)
         
 finally:
     for i in segments:
