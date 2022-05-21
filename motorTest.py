@@ -14,6 +14,7 @@ GPIO.output(motorPin, False)
 try:
     while True:
         GPIO.output(motorPin, GPIO.input(btnPin))
+        print (GPIO.input(btnPin))
         sleep(sleeptime)
 finally:
     GPIO.output(motorPin, False)
