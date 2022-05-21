@@ -9,11 +9,11 @@ motorPin = 18
 btnPin = 5
 
 GPIO.setup(motorPin, GPIO.OUT)
-GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.output(motorPin, False)
 try:
     while True:
-        GPIO.output(motorPin, not GPIO.input(btnPin))
+        GPIO.output(motorPin, GPIO.input(btnPin))
         sleep(sleeptime)
 finally:
     GPIO.output(motorPin, False)
