@@ -5,7 +5,7 @@ GPIO.setmode(GPIO.BCM)
 
 sleeptime = .1
 
-relayPin = 14
+relayPin = 12
 btnPin = 5
 
 GPIO.setup(relayPin, GPIO.OUT)
