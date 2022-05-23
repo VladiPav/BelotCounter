@@ -1,13 +1,22 @@
-import time
 
 import RPi.GPIO as GPIO
-
+from time import sleep
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(12, GPIO.OUT)
-GPIO.output(12, GPIO.LOW)
 
-time.sleep(0.25)
+sleeptime = .1
 
-GPIO.output(12, GPIO.HIGH)
-GPIO.cleanup()
+relayPin = 14
+btnPin = 5
+
+GPIO.setup(relayPin, GPIO.OUT)
+GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.output(relayPin, GPIO.LOW)
+try:
+    while True:
+        GPIO.output(relayPin, GPIO.LOW)
+        sleep(2)
+        GPIO.output(relayPin, GPIO.HIGH)
+finally:
+    GPIO.output(relayPin, GPIO.LOW)
+    GPIO.cleanup()
