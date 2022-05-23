@@ -11,7 +11,7 @@ buttonPin = 5
 # Setup the pin the LED is connected to
 GPIO.setup(relayPin, GPIO.OUT)
 # Setup the button
-GPIO.setup(buttonPin, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setup(buttonPin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 buttonPress = True
 relayState = False
