@@ -13,6 +13,7 @@ try:
         time.sleep(2)   
         GPIO.output(relayPin, True)
         time.sleep(2)
+        print("HELLO?")
 finally:
     GPIO.output(relayPin, False)
     GPIO.cleanup()
