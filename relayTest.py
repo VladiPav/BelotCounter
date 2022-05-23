@@ -1,4 +1,3 @@
-from sympy import true
 import RPi.GPIO as GPIO
 from time import sleep
 
