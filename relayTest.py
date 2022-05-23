@@ -13,10 +13,8 @@ GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.output(relayPin, False)
 try:
     while True:
-        GPIO.output(relayPin, True)
-        sleep(1)
-        GPIO.output(relayPin, False)
-        sleep(1)
+        GPIO.output(relayPin, not GPIO.input(btnPin))
+        sleep(sleeptime)
 finally:
     GPIO.output(relayPin, False)
     GPIO.cleanup()
