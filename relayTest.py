@@ -3,36 +3,20 @@ from time import sleep
 
 GPIO.setmode(GPIO.BCM)
 
-blinkCount = 3
-count = 0
+sleeptime = .1
+
 relayPin = 14
-buttonPin = 5
+btnPin = 5
 
-# Setup the pin the LED is connected to
 GPIO.setup(relayPin, GPIO.OUT)
-# Setup the button
-GPIO.setup(buttonPin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
-
-buttonPress = True
-relayState = False
-
+GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.output(relayPin, False)
 try:
-    while count < blinkCount:
-        print("Come on man, press the button!")
-        buttonPress = GPIO.input(buttonPin)
-        if buttonPress == False and relayState == False:
-            GPIO.output(relayPin, True)
-            print("relay ON")
-            relayState = True
-            sleep(0.5)
-        elif buttonPress == False and relayState == True:
-            GPIO.output(relayPin, False)
-            print("relay OFF")
-            relayState = False
-            count += 1
-            sleep(0.5)
-        sleep(0.1)
+    while True:
+        GPIO.output(relayPin, True)
+        sleep(1)
+        GPIO.output(relayPin, False)
+        sleep(1)
 finally:
-    # Reset the GPIO Pins to a safe state
     GPIO.output(relayPin, False)
     GPIO.cleanup()
