@@ -13,7 +13,7 @@ GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.output(relayPin, True)
 try:
     while True:
-        GPIO.output(relayPin, GPIO.input(btnPin))
+        GPIO.output(relayPin, not GPIO.input(btnPin))
         sleep(sleeptime)
 finally:
     GPIO.output(relayPin, True)
