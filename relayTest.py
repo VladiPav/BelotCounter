@@ -9,11 +9,11 @@ relayPin = 14
 btnPin = 5
 
 GPIO.setup(relayPin, GPIO.OUT)
-GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.output(relayPin, False)
 try:
     while True:
-        GPIO.output(relayPin, not GPIO.input(btnPin))
+        GPIO.output(relayPin, True)
         sleep(sleeptime)
 finally:
     GPIO.output(relayPin, False)
