@@ -12,6 +12,7 @@ try:
         GPIO.output(relayPin, False)
         time.sleep(2)   
         GPIO.output(relayPin, True)
+        time.sleep(2)
 finally:
-    GPIO.output(relayPin, True)
+    GPIO.output(relayPin, False)
     GPIO.cleanup()
