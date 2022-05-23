@@ -6,19 +6,15 @@ GPIO.setmode(GPIO.BCM)
 sleeptime = .1
 
 relayPin = 12
-relayPower = 15
 btnPin = 5
 
-GPIO.setup(relayPower, GPIO.OUT)
-GPIO.output(relayPower, True)
 GPIO.setup(relayPin, GPIO.OUT)
 GPIO.setup(btnPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.output(relayPin, False)
 try:
     while True:
-        GPIO.output(relayPin, GPIO.input(btnPin))
+        GPIO.output(relayPin, not GPIO.input(btnPin))
         sleep(sleeptime)
 finally:
     GPIO.output(relayPin, False)
-    GPIO.output(relayPower, False)
     GPIO.cleanup()
