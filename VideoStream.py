@@ -5,6 +5,8 @@ class VideoStream:
         # initialize the video camera stream and read the first frame
         # from the stream
         self.stream = cv2.VideoCapture(src)
+        self.stream.set(3, 320)
+        self.stream.set(3, 240)
         (self.grabbed, self.frame) = self.stream.read()
         # initialize the variable used to indicate if the thread should
         # be stopped
