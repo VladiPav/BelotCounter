@@ -6,6 +6,28 @@ import os
 from VideoStream import VideoStream
 import Cards
 
+def count(cards, gameType):
+    total = 0
+
+    for i in cards:
+        if i[0] == "Jack":
+            if gameType == "All trumps" or i[1] == gameType:
+                total += 20
+            else:
+                total += 2
+        elif i[0] == "Nine":
+            if gameType == "All trumps" or i[1] == gameType:
+                total += 14
+        elif i[0] == "Ace":
+            total += 11
+        elif i[0] == "Ten":
+            total += 10
+        elif i[0] == "King":
+            total += 4
+        elif i[0] == "Queen":
+            total += 3
+    return total
+
 path = 'C:\\Users\\vladi\\OneDrive\\School\\OpenCV\\BelotCounter\\MyCardImages'
 suitImages = []
 rankImages = []
@@ -41,27 +63,32 @@ avgRankBoundingArea = 25440
 
 
 video = VideoStream(0).start()
+#video = cv2.VideoCapture("vid1loweredRes.mp4")
 
-f = set()
+detectedCards = set()
 
-suitThreshold = 0.07
-rankThreshold = 0.4
+suitThreshold = 0.04
+rankThreshold = 0.1
 counter = 0
 rankImg = 0
+currCard = "Unknown of Unknowns"
 while True:
     currRank = "Unknown"
     currSuit = "Unknown"
     img = video.read()
+    if img is None:
+        print("No frame")
+        break
     #img = img[110:220, 60:340]
     #cv2.imshow("vis", vis)
     img = cv2.GaussianBlur(img, (5, 5), 0, 0)
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     imgbw = cv2.threshold(imgGray, 120, 255, cv2.THRESH_BINARY)[1]
 
-    suitHalf = imgbw[70:220, 60:200]
+    suitHalf = imgbw[70:180, 60:180]
     suitContours = cv2.findContours(suitHalf, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[0]
     suitContours = sorted(suitContours, key=cv2.contourArea, reverse=True)
-    rankHalf = imgbw[70:220, 175:340]
+    rankHalf = imgbw[70:180, 155:325]
     rankHalf = cv2.erode(rankHalf, np.ones((5,5), np.uint8))
     rankContours = cv2.findContours(rankHalf, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[0]
     rankContours = sorted(rankContours, key=cv2.contourArea, reverse=True)
@@ -87,8 +114,9 @@ while True:
                         if min_suit_threshold > current_suit_threshold:
                             min_suit_threshold = current_suit_threshold
                             currSuit = suits[j]
+                            #print(suits[j])
                     
-                    # print(currSuit)
+                #print(suits[j] + ": " + str(current_suit_threshold))
     
     for i in range(1, min(len(rankContours),3)):
         if cv2.contourArea(rankContours[i]) > 1000:
@@ -118,7 +146,12 @@ while True:
             # if counter % 150 == 0:
             #     print(ranks[2])
             #     print(cv2.matchShapes(rankImages[2], rankContours[i], 1, 0))
-    print(currRank + " of " + currSuit + "s")
+    if currCard == currRank + " of " + currSuit + "s":
+        if "Unknown" not in currCard and (currRank, currSuit) not in detectedCards:
+            detectedCards.add((currRank, currSuit))
+            print(str(counter) + ": " + str((currRank, currSuit)))
+    currCard = currRank + " of " + currSuit + "s"
+    print(currCard)
     cv2.imshow("whole", img)
     cv2.imshow("suitHalf", suitHalf)
     cv2.imshow("rankHalf", rankHalf)
@@ -130,5 +163,7 @@ while True:
     counter += 1
     if counter == 10000:
         counter = 0
+print(detectedCards)
+print(count(detectedCards, "Spade"))
 video.stop()
 

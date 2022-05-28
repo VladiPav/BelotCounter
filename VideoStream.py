@@ -1,4 +1,6 @@
+from configparser import Interpolation
 from threading import Thread
+import time
 import cv2
 class VideoStream:
     def __init__(self, src=0):
@@ -6,7 +8,8 @@ class VideoStream:
         # from the stream
         self.stream = cv2.VideoCapture(src)
         self.stream.set(3, 320)
-        self.stream.set(3, 240)
+        self.stream.set(4, 240)
+        #self.stream = cv2.resize(self.stream, (320, 240), fx=0,fy=0, Interpolation = cv2.INTER_CUBIC)
         (self.grabbed, self.frame) = self.stream.read()
         # initialize the variable used to indicate if the thread should
         # be stopped
