@@ -165,5 +165,6 @@ while True:
         counter = 0
 print(detectedCards)
 print(count(detectedCards, "Spade"))
+print(suitImages[0])
 video.stop()
 
