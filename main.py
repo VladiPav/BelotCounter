@@ -1,43 +1,51 @@
+import RPi.GPIO as GPIO
+from time import sleep
+from Display import Display
 
-import numpy as np
-import cv2 
-import os
-from VideoStream import VideoStream
-
-path = 'C:\\Users\\vladi\\OneDrive\\School\\OpenCV\\BelotCounter\\MyCardImages'
-suitImages = []
-rankImages = []
-suits = []
-ranks = []
-for suit in os.listdir(path + "\\SuitImages"):
-    imgCur = cv2.imread(f'{path}\\SuitImages\\{suit}', 0)
-    suitImages.append(imgCur)
-    suits.append(os.path.splitext(suit)[0])
-
-for rank in os.listdir(path + "\\RankImages"):
-    imgCur = cv2.imread(f'{path}\\RankImages\\{rank}', 0)
-    rankImages.append(imgCur)
-    ranks.append(os.path.splitext(rank)[0])
-
-
-video = VideoStream(0).start()
-
-f = set()
+from run import run
+GPIO.setmode(GPIO.BCM)
 while True:
-    currSuit = "Unknown"
-    img = video.read()
-    threshold = 0.87
-    imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    i = 0
-    j = 0
-    _, imgbw = cv2.threshold(imgGray, 120, 255, cv2.THRESH_BINARY)
-    contours, _ = cv2.findContours(imgbw, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    contours = sorted(contours, key=cv2.contourArea, reverse=True)
-    
-    cv2.drawContours(img, contours, 5, (0,255,0), 3)
-    cv2.imshow("img", img)
-    
-    if cv2.waitKey(100) & 0xFF == ord('q'):
-        break
-video.stop()
+    GPIO.setmode(GPIO.BCM)
 
+    sleeptime = .1
+
+    ledPins = (17, 27, 22, 14, 15, 18)
+    gameType = ("Clubs", "Diamonds", "Hearts", "Spades", "No trumps", "All trumps")
+    buttonPin = 9
+    
+    startButtonPin = 8
+
+
+    GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(startButtonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    
+
+    for i in ledPins:
+        GPIO.setup(i, GPIO.OUT)
+        GPIO.output(i, False)
+    lastState = GPIO.input(buttonPin)
+    counter = 0
+
+    display = Display().start()
+
+    try:
+        while GPIO.input(startButtonPin):
+            input = GPIO.input(buttonPin)
+            GPIO.output(ledPins[counter], True)
+            if input and not lastState:
+                GPIO.output(ledPins[counter], False)
+                if counter + 1 < len(ledPins):
+                    counter += 1
+                else:
+                    counter = 0
+            lastState = input
+            sleep(sleeptime)
+    finally:
+        for i in ledPins:
+            GPIO.setup(i, GPIO.OUT)
+            GPIO.output(i, False)
+        
+        run(gameType[counter], display)
+    GPIO.cleanup()
+    display.stop()
