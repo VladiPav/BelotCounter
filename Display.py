@@ -11,7 +11,6 @@ class Display:
         self.segments = (21, 20, 16, 12, 7,  26, 19)
 
         self.common = (5, 6, 13)
-        self.btnPin = 8
 
 
         self.digits = (
