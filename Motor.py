@@ -3,7 +3,7 @@ import time
 from threading import Thread
 
 class Motor:
-  def __init__(self, number = 0):
+  def __init__(self):
       GPIO.setmode(GPIO.BCM)
       self.out1 = 2
       self.out2 = 3
@@ -11,7 +11,7 @@ class Motor:
       self.out4 = 17
 
       # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
-      self.step_sleep = 0.003
+      self.step_sleep = 0.001
 
       self.step_count = 200
 
@@ -34,9 +34,8 @@ class Motor:
     GPIO.setmode(GPIO.BCM)
     Thread(target=self.show, args=()).start()
     return self
-
-  def show(self): 
-    while(not self.stopped):
+  
+  def rotate_once(self):
       i = 0
       for i in range(self.step_count):
           if i % 4 == 0:
@@ -61,6 +60,12 @@ class Motor:
               GPIO.output(self.out1, GPIO.HIGH)
 
           time.sleep(self.step_sleep)
+
+  def show(self): 
+    time.sleep(0.1)
+    while(not self.stopped):
+       self.rotate_once()
+      
 
   def stop(self):
     # indicate that the thread should be stopped

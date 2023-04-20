@@ -4,6 +4,7 @@ from Display import Display
 
 from run import run
 GPIO.setmode(GPIO.BCM)
+last_count = 0
 while True:
     GPIO.setmode(GPIO.BCM)
 
@@ -26,8 +27,8 @@ while True:
         GPIO.output(i, False)
     lastState = GPIO.input(buttonPin)
     counter = 0
-
-    display = Display().start()
+    print("\nCREATING DISPLAY\n\n")
+    display = Display(last_count).start()
 
     try:
         while GPIO.input(startButtonPin):
@@ -45,7 +46,7 @@ while True:
         for i in ledPins:
             GPIO.setup(i, GPIO.OUT)
             GPIO.output(i, False)
-        
-        run(gameType[counter], display)
+        print("STARTING")
+        last_count = run(gameType[counter], display)
     GPIO.cleanup()
     display.stop()

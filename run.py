@@ -30,6 +30,7 @@ def count(cards, gameType):
     return total
 
 def run(gameType, display):
+    print("NOW SETTING TO 0")
     display.setNumber(0)
     GPIO.setmode(GPIO.BCM)
     flashPin = 25
@@ -37,12 +38,10 @@ def run(gameType, display):
     GPIO.setup(flashPin, GPIO.OUT)
     GPIO.output(flashPin, False)
 
-    sleep(0.2)
-
-    motor = Motor.start()
+    motor = Motor()
 
 
-    path = '/home/VladiRPi/BelotCounter/MyCardImages'
+    path = '/home/vladi/BelotCounter/MyCardImages'
     suitImages = []
     rankImages = []
     suits = []
@@ -76,6 +75,8 @@ def run(gameType, display):
     currCard = "Unknown of Unknowns"
     try:
         GPIO.output(flashPin, True)
+        sleep(0.2)
+        flag = False
         while True:
             currRank = "Unknown"
             currSuit = "Unknown"
@@ -132,8 +133,13 @@ def run(gameType, display):
                         #print(str(counter) + ": " + str((currRank, currSuit)))
                     current.clear()
             if currRank == "EOL":
-                break
-            motor.stop()
+                for i in detectedCards:
+                    print(i)
+                return(current_count)
+                
+            if(not flag):
+                flag = True
+                motor.start()
             cv2.waitKey(10)
     except KeyboardInterrupt:
         video.stop()
