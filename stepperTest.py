@@ -7,7 +7,7 @@ out3 = 4
 out4 = 17
 
 # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
-step_sleep = 0.002
+step_sleep = 0.001
 
 step_count = 200
 
@@ -35,30 +35,32 @@ def cleanup():
 
 # the meat
 try:
-    i = 0
-    for i in range(step_count):
-        if i % 4 == 0:
-            GPIO.output(out4, GPIO.HIGH)
-            GPIO.output(out3, GPIO.LOW)
-            GPIO.output(out2, GPIO.LOW)
-            GPIO.output(out1, GPIO.LOW)
-        elif i % 4 == 1:
-            GPIO.output(out4, GPIO.LOW)
-            GPIO.output(out3, GPIO.LOW)
-            GPIO.output(out2, GPIO.HIGH)
-            GPIO.output(out1, GPIO.LOW)
-        elif i % 4 == 2:
-            GPIO.output(out4, GPIO.LOW)
-            GPIO.output(out3, GPIO.HIGH)
-            GPIO.output(out2, GPIO.LOW)
-            GPIO.output(out1, GPIO.LOW)
-        elif i % 4 == 3:
-            GPIO.output(out4, GPIO.LOW)
-            GPIO.output(out3, GPIO.LOW)
-            GPIO.output(out2, GPIO.LOW)
-            GPIO.output(out1, GPIO.HIGH)
+    print("Starting")
+    while(1):
+        i = 0
+        for i in range(step_count):
+            if i % 4 == 0:
+                GPIO.output(out4, GPIO.HIGH)
+                GPIO.output(out3, GPIO.LOW)
+                GPIO.output(out2, GPIO.LOW)
+                GPIO.output(out1, GPIO.LOW)
+            elif i % 4 == 1:
+                GPIO.output(out4, GPIO.LOW)
+                GPIO.output(out3, GPIO.LOW)
+                GPIO.output(out2, GPIO.HIGH)
+                GPIO.output(out1, GPIO.LOW)
+            elif i % 4 == 2:
+                GPIO.output(out4, GPIO.LOW)
+                GPIO.output(out3, GPIO.HIGH)
+                GPIO.output(out2, GPIO.LOW)
+                GPIO.output(out1, GPIO.LOW)
+            elif i % 4 == 3:
+                GPIO.output(out4, GPIO.LOW)
+                GPIO.output(out3, GPIO.LOW)
+                GPIO.output(out2, GPIO.LOW)
+                GPIO.output(out1, GPIO.HIGH)
 
-        time.sleep(step_sleep)
+            time.sleep(step_sleep)
 
 except KeyboardInterrupt:
     cleanup()

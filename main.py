@@ -9,11 +9,11 @@ while True:
 
     sleeptime = .1
 
-    ledPins = (17, 27, 22, 14, 15, 18)
+    ledPins = (8, 11, 9, 10, 22, 27)
     gameType = ("Clubs", "Diamonds", "Hearts", "Spades", "No trumps", "All trumps")
-    buttonPin = 9
+    buttonPin = 23
     
-    startButtonPin = 8
+    startButtonPin = 24
 
 
     GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)

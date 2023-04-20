@@ -5,6 +5,8 @@ import cv2
 import os
 from VideoStream import VideoStream
 
+from Motor import Motor
+
 def count(cards, gameType):
     total = 0
 
@@ -30,13 +32,15 @@ def count(cards, gameType):
 def run(gameType, display):
     display.setNumber(0)
     GPIO.setmode(GPIO.BCM)
-    relayPin = 24
-    flashPin = 10
-    GPIO.setup(relayPin, GPIO.OUT)
-    GPIO.output(relayPin, True)
+    flashPin = 25
 
     GPIO.setup(flashPin, GPIO.OUT)
     GPIO.output(flashPin, False)
+
+    sleep(0.2)
+
+    motor = Motor.start()
+
 
     path = '/home/VladiRPi/BelotCounter/MyCardImages'
     suitImages = []
@@ -129,13 +133,13 @@ def run(gameType, display):
                     current.clear()
             if currRank == "EOL":
                 break
-            GPIO.output(relayPin, False)
+            motor.stop()
             cv2.waitKey(10)
     except KeyboardInterrupt:
         video.stop()
-        GPIO.output(relayPin, True)
+        motor.stop()
         GPIO.output(flashPin, False)
     finally:
         video.stop()
-        GPIO.output(relayPin, True)
+        motor.stop()
         GPIO.output(flashPin, False)
